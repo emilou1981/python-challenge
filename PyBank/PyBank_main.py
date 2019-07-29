@@ -35,11 +35,13 @@ with open(bank_csv, newline="") as csvfile:
     
             # Find the total number of months included in the dataset
             total_months = total_months + 1
-            #he net total amount of "Profit/Losses" over the entire period
-        
+
+            #the net total amount of "Profit/Losses" over the entire period
             total_net_profit = total_net_profit + Profit_Loses
+
             #define average to calculate average change
-            #     Average_Change = 
+            # Average_Change = 
+            # Average_Change = round((total_net_profit / total_months),2)
             # #The greatest increase in profits (date and amount) over the entire period
             #     Incr_Profits = 
             # #The greatest decrease in losses (date and amount) over the entire period
@@ -49,7 +51,8 @@ with open(bank_csv, newline="") as csvfile:
     print("Financial Analysis")
     print("------------------------------------")
     print(f'Total Months: {total_months}')
-    print(f'Total: {total_net_profit}')
+    print(f'Total: ${total_net_profit}')
+    # print(f'Average Change: ${Average_Change}')
     # print(f'Greatest Increase in Profits: {Date} {Incr_Profits}')
     # print(f'Greatest Increase in Profits: {Date} {Decr_Profits}')
 
