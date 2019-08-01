@@ -14,6 +14,10 @@ import csv
 total_net_profit = 0
 total_months = 0
 Month_Change = 0
+Average_Change = []
+Average_Change = 0
+Previous_Month_PL= []
+
 # Path to collect data 
 bank_csv = os.path.join("..", "RawData", "budget_data.csv")
 
@@ -41,9 +45,10 @@ with open(bank_csv, newline="") as csvfile:
             total_net_profit = total_net_profit + Profit_Loses
 
             #define average to calculate average change
-        #    class Month_Change(Profit_Loses):
-        #        def _diff(Changes):
-        #            Month.Changes = int(row[1])
+            try:
+                Previous_Month_PL
+            except NameError:
+                Previous_Month_PL = int(row[1]) 
 
         #        def average(numbers):
         #         length = len(numbers)
@@ -52,20 +57,20 @@ with open(bank_csv, newline="") as csvfile:
         #         total += number
         #         return total / length 
             
-            Month_Change = (Profit_Loses - Profit_Loses.shift())
+           
             
             # Average_Change = round((total_net_profit / total_months),2)
             # #The greatest increase in profits (date and amount) over the entire period
             #     Incr_Profits = 
             # #The greatest decrease in losses (date and amount) over the entire period
             #     Decr_Profits = 
-
+    Average_Change = (Previous_Month_PL-Average_Change)
 #     # Print out the financial analysis
     print("Financial Analysis")
     print("------------------------------------")
     print(f'Total Months: {total_months}')
     print(f'Total: ${total_net_profit}')
-    print(f'Month Change: {Month_Change}')
+    print(f'Average Monthly Change: {Previous_Month_PL}')
     # print(f'Average Change: ${Average_Change}')
     # print(f'Greatest Increase in Profits: {Date} {Incr_Profits}')
     # print(f'Greatest Increase in Profits: {Date} {Decr_Profits}')
