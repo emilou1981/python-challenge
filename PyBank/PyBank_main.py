@@ -10,18 +10,22 @@
 
 import os
 import csv
-#declare starting value of total net profit
+#declare starting values
 total_net_profit = 0
 total_months = 0
 #creat list for PL_differences
 difference = []
-
-
+diff_List = []
+PL_List = []
+Date_List = []
+Average_Change = 0
+Aver_with_Date =[]
+Max = []
+Min = []
 
 # Path to collect data 
 bank_csv = os.path.join("..", "RawData", "budget_data.csv")
 
-#d
 # Open and read csv
 with open(bank_csv, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
@@ -32,11 +36,13 @@ with open(bank_csv, newline="") as csvfile:
     # Read through each row of data after the header
     for row in csvreader:
 
-# Define the function and have it accept the 'budget_data' as its sole parameter
-        # def print_financials(BankBudget_data):
-
+        # Define a title for the rows of data
         Date = str(row[0])
         Profit_Loses = int(row[1])
+
+        #create new lists for PL and Date to create the comparision of two values (x and x-1)
+        PL_List.append(Profit_Loses)
+        Date_List.append(Date)
 
         # Find the total number of months included in the dataset
         total_months = total_months + 1
@@ -44,44 +50,52 @@ with open(bank_csv, newline="") as csvfile:
         #the net total amount of "Profit/Losses" over the entire period
         total_net_profit = total_net_profit + Profit_Loses
 
-        #define average to calculate average change
-
-        # for i in range(1,len(d)):
-        #     print(f'index {i}')
-        #     previous = d[i-1]
-        #     current = d[i]
-        #     difference = current - previous
-        #     print(f'current {current}, previous {previous}')
-        #     print(f'difference {difference}')
- 
-                     
-            # #The greatest increase in profits (date and amount) over the entire period
-            # Incr_Profits = max[difference]
-
-            # # #The greatest decrease in losses (date and amount) over the entire period
-            # Decr_Profits = min[difference]
+# remove the first date to zip with comparision as row 1 PL is none
+Date_List.pop(0)
     
-#     # Print out the financial analysis in terminal
-    print("Financial Analysis")
-    print("------------------------------------")
-    print(f'Total Months: {total_months}')
-    print(f'Total: ${total_net_profit}')
-    # print(f'Average Monthly Change: {Previous_Month_PL}')
-    # print(f'Average Change: ${Average_Change}')
-    # print(f'Greatest Increase in Profits: {Date} {Incr_Profits}')
-    # print(f'Greatest Increase in Profits: {Date} {Decr_Profits}')
+# compare the Profit lose values x minus (x-1) to get monthly change and add value to new list (diff_List):
+for i in range(1,len(PL_List)):
+    # print(f'index {i}')
+    previous = PL_List[i-1]
+    current = PL_List[i]
+    difference = current - previous
+    diff_List.append(difference)
+    # print(f'current {current}, previous {previous}')
+    # print(f'difference {difference}')
 
-#export a text file with the results
-# # Set variable for output file
-# output_file = os.path.join("bank_Profit_Analysis_final.csv")
+#calcuate average change of the monthly changes
+Average_Change = round(sum(diff_List)/(total_months-1),2)
+                     
+#Zip together the updated date list with the removed 1st date and the month changes into a new list
+Aver_with_Date = zip(Date_List, diff_List)
+for i in Aver_with_Date:
+    for j in i:
+        if j == max(diff_List):
+            Max = i
+             # print(Max)
+        if j == min(diff_List):
+            Min = i
+            # print(i)
 
-# #  Open the output file
-# with open(output_file, "w", newline="") as datafile:
-#     writer = csv.writer(datafile)
+    
+# Print out the financial analysis in terminal
+print("Financial Analysis")
+print("------------------------------------")
+print(f'Total Months: {total_months}')
+print(f'Total: ${total_net_profit}')
+print(f'Average Change: ${Average_Change}')
+print(f'Greatest Increase in Profits: {Max}')
+print(f'Greatest Decrease in Profits: {Min}')
 
-#     # Write the header row
-#     writer.writerow(["Total Months", "Total Net Profit", "Average Change", "Max Profit Increase",
-#                      "Min Profit Increase"])
+# export a text file with the results
+# Set variable for output file
+output_file = os.path.join("bank_Profit_Analysis_final.csv")
 
-#     # Write in zipped rows
-#     writer.writerows(cleaned_csv)
+#  Open the output file
+with open(output_file, "w", newline="") as datafile:
+    writer = csv.writer(datafile)
+
+    # Write the header row
+    writer.writerow(["Total Months", "Total Net Profit ($)", "Average Change ($)", "Max Profit Increase(Date, $)", "Min Profit Decrease (Date, $)"])
+    writer.writerow([total_months, total_net_profit, Average_Change, Max, Min])
+

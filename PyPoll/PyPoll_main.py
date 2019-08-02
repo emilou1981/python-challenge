@@ -13,13 +13,13 @@ import csv
 #declare starting values
 Votes_Cast = 0
 
-    #dictionary to calc winning percent
+#dictionary to calc winning percent
 Win_Percent = {}
 
-    #dictionay to compile total votes received by candidates
+#dictionary to compile total votes received by candidates
 d = {}
 
-    #varibles to determining winner based on totals
+#varibles to determining winner based on totals
 winningTotal = 0
 Winner = ""
 
@@ -36,14 +36,13 @@ with open(election_csv, newline="") as csvfile:
     # Read through each row of data after the header
     for row in csvreader:
 
-# Define the candidate name from CSV file
+        # Define the candidate name from CSV file
         Candidate_Name = str(row[2])
 
-#Count the total number of votes cast
+        #Count the total number of votes cast
         Votes_Cast = Votes_Cast + 1
         
-# create dictionary and count candidate votes received
-        
+        # create dictionary and count candidate votes received   
         if Candidate_Name in d:
             d[Candidate_Name] = d[Candidate_Name] + 1
         else:
@@ -63,7 +62,7 @@ for key, Votes in d.items():
     # print(Win_Percent[key])   
    
     
-#prit out data for output
+#print out data for output for terminal
 print("Election Results")
 print("------------------------------------")
 print(f'Total Votes: {Votes_Cast}')
@@ -74,3 +73,28 @@ for key in d.keys():
 print("------------------------------------")   
 print(f'Winner: {Winner}')
 print("------------------------------------")   
+
+# export a text file with the results
+# Set variable for output file
+output_file = os.path.join("Polling_Results_final.csv")
+
+#  Open the output file
+with open(output_file, "w", newline="") as datafile:
+    writer = csv.writer(datafile)
+
+    # Write the header row
+    writer.writerow(["FINAL ELECTION RESULTS"])
+    writer.writerow(["==================================================================================="])
+    writer.writerow(["Winner:"])
+    writer.writerow([Winner])
+    writer.writerow(["==================================================================================="])
+    writer.writerow(["Total Votes Cast"])
+    writer.writerow([Votes_Cast])
+    writer.writerow(["==================================================================================="])
+    writer.writerow(["Candidate"])
+    writer.writerow([key]) 
+    writer.writerow(["Percentage of Votes"])
+    writer.writerow([{Win_Percent[key]}])
+    writer.writerow(["Votes Received"])
+    writer.writerow([{d[key]}])
+   
