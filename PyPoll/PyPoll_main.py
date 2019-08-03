@@ -60,7 +60,12 @@ for key in d.keys():
 for key, Votes in d.items():
     Win_Percent[key] = round((Votes/Votes_Cast)*100,3)
     # print(Win_Percent[key])   
-   
+
+ #create new list for the CSV file print out for election results for candidate write out print string referencing the keys from d and win_percent dictionaries
+Results_Print = []
+for key in d.keys():
+    Results_Print.append(key + ": " + str(Win_Percent[key]) + "%  " + str(d[key])) 
+    
     
 #print out data for output for terminal
 print("Election Results")
@@ -88,13 +93,10 @@ with open(output_file, "w", newline="") as datafile:
     writer.writerow(["Winner:"])
     writer.writerow([Winner])
     writer.writerow(["==================================================================================="])
-    writer.writerow(["Total Votes Cast"])
+    writer.writerow(["Total Votes Cast:"])
     writer.writerow([Votes_Cast])
     writer.writerow(["==================================================================================="])
-    writer.writerow(["Candidate"])
-    writer.writerow([key]) 
-    writer.writerow(["Percentage of Votes"])
-    writer.writerow([{Win_Percent[key]}])
-    writer.writerow(["Votes Received"])
-    writer.writerow([{d[key]}])
+    writer.writerow(["Election Results by Candidate (Name / % / Votes)"])
+    writer.writerow([Results_Print])
+
    

@@ -84,8 +84,8 @@ print("------------------------------------")
 print(f'Total Months: {total_months}')
 print(f'Total: ${total_net_profit}')
 print(f'Average Change: ${Average_Change}')
-print(f'Greatest Increase in Profits: {Max}')
-print(f'Greatest Decrease in Profits: {Min}')
+print(f'Greatest Increase in Profits (Date / $): {Max}')
+print(f'Greatest Decrease in Profits (Date / $): {Min}')
 
 # export a text file with the results
 # Set variable for output file
@@ -96,6 +96,6 @@ with open(output_file, "w", newline="") as datafile:
     writer = csv.writer(datafile)
 
     # Write the header row
-    writer.writerow(["Total Months", "Total Net Profit ($)", "Average Change ($)", "Max Profit Increase(Date, $)", "Min Profit Decrease (Date, $)"])
+    writer.writerow(["Total Months", "Total Net Profit ($)", "Average Change ($)", "Max Profit Increase (Date, $)", "Min Profit Decrease (Date, $)"])
     writer.writerow([total_months, total_net_profit, Average_Change, Max, Min])
 
